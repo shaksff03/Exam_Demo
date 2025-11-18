@@ -404,7 +404,7 @@
             animation: fadeIn 0.3s ease-out;
         }
 
-        .modal-content {
+        /* .modal-content {
             position: relative;
             background-color: var(--card-bg);
             margin: 8% auto;
@@ -414,6 +414,21 @@
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             animation: slideIn 0.3s ease-out;
+        } */
+
+            .modal-content {
+            position: relative;
+            background-color: var(--card-bg);
+            margin: 8% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .modal-header {
@@ -1039,9 +1054,12 @@
         }
 
         /* Submit Confirmation Modal Styles */
-        .submit-confirm-modal .modal-content {
+  .submit-confirm-modal .modal-content {
             max-width: 600px;
             margin: 5% auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .submit-details {
