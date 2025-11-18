@@ -2601,6 +2601,181 @@
         // NOTE: settings toggle behavior improved - toggle button now stops propagation,
         // supports aria-expanded, and clicking outside or pressing Escape will close the panel.
         document.addEventListener('DOMContentLoaded', initializeSettings);
+
+
+
+
+        
+        // ============ WELCOME PAGE SECURITY ============
+        // Disable inspect element and developer tools on entire page
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+
+        // Block all keyboard shortcuts that open developer tools or inspect
+        document.addEventListener('keydown', (e) => {
+            // F12 - Developer Tools
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+I - Inspect Element
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+J - Console
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+C - Inspect Element (Chrome)
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+S - Screenshot
+            if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+U - View Page Source
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+S - Save Page
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                return false;
+            }
+            // Win+Shift+S - Windows Screenshot
+            if (e.metaKey && e.shiftKey && e.key === 's') {
+                e.preventDefault();
+                return false;
+            }
+        }, true);
+
+        // Block copy on welcome page
+        document.addEventListener('copy', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+
+        // Block paste on welcome page
+        document.addEventListener('paste', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+
+        // Block text selection on welcome page - Make all text non-selectable
+        document.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable drag and drop
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+            return false;
+        });
+
+        // Override window.console to prevent console access
+        const originalConsole = window.console;
+        Object.defineProperty(window, 'console', {
+            get: function() {
+                return originalConsole;
+            },
+            set: function() {
+                // Silently ignore attempts to modify console
+            }
+        });
+
+        // Detect and block debugger
+        setInterval(() => {
+            const startTime = performance.now();
+            debugger;
+            const endTime = performance.now();
+            // If debugger is open, there will be a significant time gap
+            if (endTime - startTime > 100) {
+                // Debugger detected - could implement action here
+            }
+        }, 1000);
+
+        // Disable right-click specifically on welcome page content
+        document.querySelectorAll('.welcome-page, .welcome-page *').forEach(element => {
+            element.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            });
+            element.addEventListener('mousedown', (e) => {
+                if (e.button === 2) { // Right-click
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        });
+
+        // Override DevTools detection check on page load
+        function startWelcomePageDevToolsMonitoring() {
+            const checkDevTools = setInterval(() => {
+                const startTime = performance.now();
+                console.clear();
+                const endTime = performance.now();
+                
+                // Detect if DevTools is open by checking console execution time
+                if (endTime - startTime > 50) {
+                    // DevTools detected - you can log this or take action
+                    console.log('DevTools activity detected on welcome page');
+                }
+                
+                // Check window size for devtools (side or bottom panel)
+                if (window.outerWidth - window.innerWidth > 300 || window.outerHeight - window.innerHeight > 300) {
+                    // Likely has DevTools open
+                    console.log('DevTools window detected');
+                }
+            }, 2000);
+            
+            return checkDevTools;
+        }
+
+        // Block iframe inspection
+        try {
+            window.self !== window.top && (window.top.location = window.self.location);
+        } catch (e) {
+            // Silently handle errors
+        }
+
+        // Disable text selection CSS styling as backup
+        const style = document.createElement('style');
+        style.textContent = `
+            .welcome-page,
+            .welcome-page * {
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                user-select: none !important;
+                -webkit-user-drag: none !important;
+                pointer-events: auto;
+            }
+            
+            /* Prevent inspect element via CSS tricks */
+            .welcome-page::before,
+            .welcome-page::after {
+                content: '';
+                pointer-events: none;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Start monitoring on page load
+        const welcomeDevToolsCheck = startWelcomePageDevToolsMonitoring();
+
     </script>
 </body>
 
