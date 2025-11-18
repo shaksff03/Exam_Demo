@@ -1432,7 +1432,7 @@
                 <div class="exam-info">
                     <div class="info-item">
                         <i class="fas fa-question-circle"></i>
-                        <div class="value">21</div>
+                        <div class="value">8</div>
                         <div class="label">Total Questions</div>
                     </div>
                     <div class="info-item">
@@ -1442,12 +1442,12 @@
                     </div>
                     <div class="info-item">
                         <i class="fas fa-file-alt"></i>
-                        <div class="value">21</div>
+                        <div class="value">8</div>
                         <div class="label">Total Pages</div>
                     </div>
                     <div class="info-item">
                         <i class="fas fa-exchange-alt"></i>
-                        <div class="value">3</div>
+                        <div class="value">2</div>
                         <div class="label">Max Tab Switches</div>
                     </div>
                 </div>
@@ -1835,16 +1835,16 @@
                 tabSwitchCount++;
                 switchCount.textContent = tabSwitchCount;
 
-                if (tabSwitchCount <= 3) {
+                if (tabSwitchCount <= 2) {
                     warningCount++;
                     warningCountEl.textContent = warningCount;
-                    showNotification('warning', 'Tab Switch Detected', `You have switched tabs ${tabSwitchCount} time(s). Maximum allowed: 3.`);
+                    showNotification('warning', 'Tab Switch Detected', `You have switched tabs ${tabSwitchCount} time(s). Maximum allowed: 2.`);
 
-                    if (tabSwitchCount === 3) {
+                    if (tabSwitchCount === 2) {
                         showNotification('error', 'Final Warning', 'This is your final warning. One more tab switch will auto-submit your exam.');
                     }
                 } else {
-                    // Auto-submit exam on 4th tab switch
+                    // Auto-submit exam on 3rd tab switch
                     showNotification('error', 'Exam Auto-Submitted', 'You have exceeded the maximum allowed tab switches. Your exam has been submitted.');
                     submitExam();
                 }
